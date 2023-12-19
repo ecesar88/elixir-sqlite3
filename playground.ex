@@ -238,7 +238,7 @@ defmodule Example.Greetings do
   end
 end
 
-# Module attributes
+# Module attributes are a constant
 defmodule Example do
   @greeting "Hello"
 
@@ -260,7 +260,30 @@ steve = %{steve | name: "Sean"}
 IO.inspect(steve)
 
 # Structs cannot be accessed from a "root" module, it only works from within another module
+
+defmodule Sayings.Greetings do
+  def basic(name), do: "Hi, #{name}"
+end
+
 defmodule Main do
+  @moduledoc """
+  This module is great at X
+  """
+
+  @doc """
+  Frobnicates the given string.
+  """
+
+  # By default all functions and macros are imported but we can filter them using the :only and :except options.
+  import Example.Greetings, only: [morning: 1]
+  # import List, except: [morning: 1]
+
+  defmodule ImportMessage do
+    alias Sayings.Greetings, as: Hi
+
+    def print_message(name), do: Hi.basic(name)
+  end
+
   def main do
     steve = %Example.User{name: "Josh"}
     IO.inspect(steve)
@@ -273,5 +296,19 @@ defmodule Main do
 
     IO.inspect(%Example.User{name: "Steve", roles: [:manager]})
     # %Example.User<name: "Steve", roles: [:manager]>
+
+    IO.puts(morning("Erick"))
   end
 end
+
+# Call main method from Main module
+Main.main()
+
+# Require only allows macros to be used rather than functions
+# defmodule Example do
+#   require SuperMacros
+
+#   SuperMacros.do_stuff()
+# end
+
+# Note: quote, alias, use, require are macros related to metaprogramming.
