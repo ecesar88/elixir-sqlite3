@@ -23,20 +23,6 @@ defmodule ElixirSqlite.ShoppingCart do
     Repo.all(Cart)
   end
 
-  @doc """
-  Gets a single cart.
-
-  Raises `Ecto.NoResultsError` if the Cart does not exist.
-
-  ## Examples
-
-      iex> get_cart!(123)
-      %Cart{}
-
-      iex> get_cart!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_cart!(id), do: Repo.get!(Cart, id)
 
   def get_cart_by_user_uuid(user_uuid) do
@@ -50,19 +36,6 @@ defmodule ElixirSqlite.ShoppingCart do
       )
     )
   end
-
-  @doc """
-  Creates a cart.
-
-  ## Examples
-
-      iex> create_cart(%{field: value})
-      {:ok, %Cart{}}
-
-      iex> create_cart(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
 
   def create_cart(user_uuid) do
     %Cart{user_uuid: user_uuid}
@@ -113,18 +86,6 @@ defmodule ElixirSqlite.ShoppingCart do
     end)
   end
 
-  @doc """
-  Updates a cart.
-
-  ## Examples
-
-      iex> update_cart(cart, %{field: new_value})
-      {:ok, %Cart{}}
-
-      iex> update_cart(cart, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_cart(%Cart{} = cart, attrs) do
     changeset =
       cart
